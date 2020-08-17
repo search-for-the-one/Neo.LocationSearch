@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Neo.ConsoleApp.DependencyInjection;
@@ -22,14 +23,14 @@ namespace GeoMapUsageExample
 
             NearBySuburbs(map);
 
-            return new Task<int>(() => 0);
+            return Task.FromResult(0);
         }
 
         private static void NearBySuburbs(IGeoMap map)
         {
-            Console.WriteLine("Input latitude, longitude and distance in kilometers:");
             while (true)
             {
+                Console.WriteLine("Input latitude, longitude and distance in kilometers:");
                 var line = Console.ReadLine();
                 if (string.IsNullOrEmpty(line))
                     break;
@@ -39,22 +40,48 @@ namespace GeoMapUsageExample
                 var longitude = double.Parse(arr[1]);
                 var km = double.Parse(arr[2]);
 
-                var suburbs = map.NearbySuburbs(new GeoPoint(latitude, longitude), Distance.FromKilometres(km)).OrderBy(x => x.Name);
-                foreach (var suburb in suburbs)
+                var sw = Stopwatch.StartNew();
+                var suburbs = map.NearbySuburbs(new GeoPoint(latitude, longitude), Distance.FromKilometres(km)).ToList();
+                sw.Stop();
+                
+                foreach (var suburb in suburbs.OrderBy(x => x.Name))
                 {
                     Console.WriteLine(suburb);
                 }
+                Console.WriteLine($"Time taken: {sw.ElapsedMilliseconds}ms");
+                PrintMemoryUsage();
             }
         }
 
         private IGeoMap CreateFromDataFile()
         {
-            Console.WriteLine("Input 1 from json file, 2 from binary file");
+            Console.WriteLine("Input '1' to load from json file, '2' to load from binary file");
             var option = Console.ReadLine();
             Console.WriteLine("Input file name");
             var file = Console.ReadLine();
 
-            return option == "1" ? geoMapConstructor.FromJsonFile(file) : geoMapConstructor.FromBinaryFile(file);
+            PrintMemoryUsage();
+
+            var sw = Stopwatch.StartNew();
+            var result = option == "1" ? geoMapConstructor.FromJsonFile(file) : geoMapConstructor.FromBinaryFile(file);
+            sw.Stop();
+            Console.WriteLine($"Loaded geo-map data in {sw.ElapsedMilliseconds}ms");
+            
+            ForceGc();
+            PrintMemoryUsage();
+
+            return result;
+        }
+
+        private static void ForceGc()
+        {
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+        }
+
+        private static void PrintMemoryUsage()
+        {
+            Console.WriteLine($"GC memory size: {GC.GetTotalMemory(false) / (1024.0 * 1024.0):F1}MB");
         }
     }
 }
