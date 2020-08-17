@@ -30,8 +30,9 @@ namespace Neo.LocationSearch.Indexes
                 {
                     for (var y = range.L; y <= range.R; y++)
                     {
-                        suburbs[range.X][y] ??= new List<Suburb>();
-                        suburbs[range.X][y].Add(suburbGeoIndexes.Suburb);
+                        ref var suburbList = ref suburbs[range.X][y];
+                        suburbList ??= new List<Suburb>(1);
+                        suburbList.Add(suburbGeoIndexes.Suburb);
                     }
                 }
             }
@@ -128,13 +129,13 @@ namespace Neo.LocationSearch.Indexes
             set => suburbs[index.X][index.Y] = value;
         }
 
-        private IEnumerable<GeoIndexRange> ToRanges(IEnumerable<GeoIndex> geoIndexes)
+        private static IEnumerable<GeoIndexRange> ToRanges(IEnumerable<GeoIndex> geoIndexes)
         {
             return geoIndexes.GroupBy(x => x.X).SelectMany(x => GetRanges(x.Select(y => y.Y))
                 .Select(r => new GeoIndexRange(x.Key, r.Left, r.Right)));
         }
 
-        private IEnumerable<(int Left, int Right)> GetRanges(IEnumerable<int> indexList)
+        private static IEnumerable<(int Left, int Right)> GetRanges(IEnumerable<int> indexList)
         {
             var sortedList = indexList.OrderBy(x => x).ToList();
             var i = 0;
