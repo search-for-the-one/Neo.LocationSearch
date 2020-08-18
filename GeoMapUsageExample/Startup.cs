@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Neo.ConsoleApp.DependencyInjection;
-using Neo.LocationSearch.Indexes;
 
 namespace GeoMapUsageExample
 {

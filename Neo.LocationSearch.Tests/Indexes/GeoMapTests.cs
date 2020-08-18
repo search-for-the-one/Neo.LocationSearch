@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Neo.LocationSearch.Indexes;
-using Neo.LocationSearch.Indexes.Options;
+using GeoMapGenerator.Indexes.Options;
 using Neo.LocationSearch.Models;
 using NUnit.Framework;
 

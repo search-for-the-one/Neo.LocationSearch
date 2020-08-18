@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <PackageReference Include="Neo.ConsoleApp.DependencyInjection" Version="1.6.0" />
+      <PackageReference Include="Binaron.Serializer" Version="2.3.0" />
     </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ using System.Globalization;
 namespace Neo.LocationSearch.Models
 {
     [DebuggerDisplay("{" + nameof(metres) + "} metres")]
-    public struct Distance : IEquatable<Distance>, IComparable<Distance>
+    public readonly struct Distance : IEquatable<Distance>, IComparable<Distance>
     {
         private readonly double metres;
 

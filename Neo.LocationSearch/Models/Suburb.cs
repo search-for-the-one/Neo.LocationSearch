@@ -11,17 +11,27 @@ namespace Neo.LocationSearch.Models
 
         public bool Equals(Suburb other)
         {
-            return string.Equals(ToString(), other?.ToString());
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Name == other.Name && Postcode == other.Postcode && State == other.State && Region == other.Region;
         }
 
-        public override string ToString()
+        public override bool Equals(object obj)
         {
-            return string.Join(Common.Separator, State, Region, Name, Postcode);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Suburb) obj);
         }
 
         public override int GetHashCode()
         {
-            return ToString().GetHashCode();
+            return HashCode.Combine(Name, Postcode, State, Region);
+        }
+        
+        public override string ToString()
+        {
+            return string.Join('\t', State, Region, Name, Postcode);
         }
     }
 }

@@ -14,19 +14,24 @@ namespace Neo.LocationSearch.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
 
-        public override string ToString()
-        {
-            return $"{Latitude}{Common.Separator}{Longitude}";
-        }
-
         public bool Equals(GeoPoint other)
         {
-            return Math.Abs(Latitude - other.Latitude) < GeoConstants.Epsilon && Math.Abs(Longitude - other.Longitude) < GeoConstants.Epsilon;
+            return Latitude.Equals(other.Latitude) && Longitude.Equals(other.Longitude);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is GeoPoint other && Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return ToString().GetHashCode();
+            return HashCode.Combine(Latitude, Longitude);
+        }
+
+        public override string ToString()
+        {
+            return $"{Latitude}\t{Longitude}";
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
