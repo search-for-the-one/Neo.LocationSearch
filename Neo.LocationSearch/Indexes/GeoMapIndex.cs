@@ -26,11 +26,14 @@ namespace Neo.LocationSearch.Indexes
 
             foreach (var suburbGeoIndexes in data.Suburbs)
             {
-                foreach (var range in suburbGeoIndexes.IndexRanges.Select(x => new GeoIndexRange(x)))
+                foreach (var range in suburbGeoIndexes.IndexRanges)
                 {
-                    for (var y = range.L; y <= range.R; y++)
+                    var x = range[0];
+                    var l = range[1];
+                    var r = range[2];
+                    for (var y = l; y <= r; y++)
                     {
-                        ref var suburbList = ref suburbs[range.X][y];
+                        ref var suburbList = ref suburbs[x][y];
                         suburbList ??= new List<Suburb>(1);
                         suburbList.Add(suburbGeoIndexes.Suburb);
                     }
@@ -113,7 +116,7 @@ namespace Neo.LocationSearch.Indexes
                 Suburbs = dumpSuburbs.Select(kv => new SuburbGeoIndexes
                 {
                     Suburb = kv.Key,
-                    IndexRanges = ToRanges(kv.Value).Select(x => x.ToString()).ToList()
+                    IndexRanges = ToRanges(kv.Value).Select(x => x.ToArray()).ToList()
                 }).ToList()
             };
         }

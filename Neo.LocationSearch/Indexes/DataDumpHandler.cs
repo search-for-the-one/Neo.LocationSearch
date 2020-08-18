@@ -30,7 +30,10 @@ namespace Neo.LocationSearch.Indexes
 
         private void DumpToBinaryFile(GeoMapData data)
         {
-            using var stream = File.Open(options.BinaryFile, FileMode.OpenOrCreate);
+            if (File.Exists(options.BinaryFile))
+                File.Delete(options.BinaryFile);
+            
+            using var stream = File.Open(options.BinaryFile, FileMode.CreateNew);
             BinaronConvert.Serialize(data, stream);
         }
     }

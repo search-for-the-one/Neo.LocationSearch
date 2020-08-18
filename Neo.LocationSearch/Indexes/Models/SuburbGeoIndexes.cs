@@ -6,6 +6,6 @@ namespace Neo.LocationSearch.Indexes.Models
     internal class SuburbGeoIndexes
     {
         public Suburb Suburb { get; set; }
-        public List<string> IndexRanges { get; set; }
+        public List<int[]> IndexRanges { get; set; }
     }
 }
