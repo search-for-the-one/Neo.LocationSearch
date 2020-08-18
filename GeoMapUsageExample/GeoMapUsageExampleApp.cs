@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Neo.ConsoleApp.DependencyInjection;
-using Neo.LocationSearch.Indexes;
+using Neo.LocationSearch;
 using Neo.LocationSearch.Models;
 
 namespace GeoMapUsageExample

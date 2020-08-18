@@ -1,5 +1,4 @@
-﻿using Neo.LocationSearch.Indexes.Models;
-using Neo.LocationSearch.Models;
+﻿using Neo.LocationSearch.Models;
 using Newtonsoft.Json;
 using NUnit.Framework;
 

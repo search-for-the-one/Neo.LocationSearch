@@ -3,8 +3,9 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using GeoMapGenerator.Indexes;
 using Neo.ConsoleApp.DependencyInjection;
-using Neo.LocationSearch.Indexes;
+using Neo.LocationSearch;
 using Neo.LocationSearch.Models;
 
 namespace GeoMapGenerator

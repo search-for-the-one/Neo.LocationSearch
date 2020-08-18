@@ -1,4 +1,4 @@
-﻿using Neo.LocationSearch.Extensions;
+﻿using GeoMapGenerator.Extensions;
 using NUnit.Framework;
 
 namespace Neo.LocationSearch.Tests.Extensions

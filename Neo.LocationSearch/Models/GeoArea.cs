@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Neo.LocationSearch.Models
 {
-    public struct GeoArea
+    internal struct GeoArea
     {
         public GeoArea(GeoPoint southWest, GeoPoint northEast)
         {

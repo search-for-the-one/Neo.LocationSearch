@@ -1,15 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using GeoMapGenerator.Boundaries;
+using GeoMapGenerator.Boundaries.AustralianOpenData;
+using GeoMapGenerator.Boundaries.AustralianOpenData.Options;
+using GeoMapGenerator.Boundaries.Options;
+using GeoMapGenerator.Indexes;
+using GeoMapGenerator.Indexes.Options;
+using GeoMapGenerator.Locations;
+using GeoMapGenerator.Locations.Options;
+using GeoMapGenerator.Options;
+using Microsoft.Extensions.DependencyInjection;
 using Neo.ConsoleApp.DependencyInjection;
 using Neo.Extensions.DependencyInjection;
-using Neo.LocationSearch.Boundaries;
-using Neo.LocationSearch.Boundaries.AustralianOpenData;
-using Neo.LocationSearch.Boundaries.AustralianOpenData.Options;
-using Neo.LocationSearch.Boundaries.Options;
-using Neo.LocationSearch.Indexes;
-using Neo.LocationSearch.Indexes.Options;
-using Neo.LocationSearch.Locations;
-using Neo.LocationSearch.Locations.Options;
-using Neo.LocationSearch.Options;
 
 namespace GeoMapGenerator
 {
@@ -29,7 +29,6 @@ namespace GeoMapGenerator
             
             services.AddConfig<GeoMapDumpHandlerOptions>(Configuration);
             services.AddSingleton<IDataDumpHandler, DataDumpHandler>();
-            services.AddSingleton<IGeoMapConstructor, GeoMapConstructor>();
         }
 
         private void AddBoundary(IServiceCollection services)
