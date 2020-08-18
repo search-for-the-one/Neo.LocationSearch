@@ -10,6 +10,5 @@ namespace Neo.LocationSearch.Indexes.Options
         public double MapResolutionInMetres { get; set; }
         public GeoPoint SouthWest { get; set; } = AustraliaSouthWest;
         public GeoPoint NorthEast { get; set; } = AustraliaNorthEast;
-        public double BoundaryResolutionInMetres { get; set; }
     }
 }

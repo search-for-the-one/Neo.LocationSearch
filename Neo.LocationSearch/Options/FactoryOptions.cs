@@ -1,6 +1,6 @@
 ﻿using Neo.Extensions.DependencyInjection;
-using Neo.LocationSearch.BoundaryDataProviders;
-using Neo.LocationSearch.LocationDataProviders;
+using Neo.LocationSearch.Boundaries;
+using Neo.LocationSearch.Locations;
 
 namespace Neo.LocationSearch.Options
 {
