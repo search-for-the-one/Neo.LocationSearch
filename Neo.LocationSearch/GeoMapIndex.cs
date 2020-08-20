@@ -145,30 +145,40 @@ namespace Neo.LocationSearch
                 i = j;
             }
         }
-
+        
         private IEnumerable<GeoIndex> NearbyIndexes(GeoPoint point, Distance distance)
         {
-            var index = indexes.GetIndex(point);
-            var length = (int) Math.Ceiling(distance / resolution) + 1;
-
-            for (var i = index.X - length; i <= index.X + length; i++)
+            var center = indexes.GetIndex(point);
+            var length = (int) Math.Floor(distance / resolution);
+            var upper = center.X + length;
+            while (indexes.GetGeoPoint(new GeoIndex(upper + 1, center.Y)).GetDistance(point) <= distance)
             {
-                var left = index.Y - length;
-                var right = index.Y + length;
-
-                while (left <= right && !WithinDistance(new GeoIndex(i, left))) left++;
-
-                while (right >= left && !WithinDistance(new GeoIndex(i, right))) right--;
-
-                for (var j = left; j <= right; j++)
-                {
-                    yield return new GeoIndex(i, j);
-                }
+                upper++;
             }
-
-            bool WithinDistance(GeoIndex current)
+            var lower = center.X - length;
+            while (indexes.GetGeoPoint(new GeoIndex(lower - 1, center.Y)).GetDistance(point) <= distance)
             {
-                return indexes.IsIndexValid(current) && indexes.GetGeoPoint(current).GetDistance(point) <= distance;
+                lower--;
+            }
+            return NearbyIndexes(Enumerable.Range(center.X, upper - center.X + 1).Reverse(), center.Y, point, distance)
+                .Concat(NearbyIndexes(Enumerable.Range(lower, center.X - lower), center.Y, point, distance));
+        }
+        private IEnumerable<GeoIndex> NearbyIndexes(IEnumerable<int> xs, int y, GeoPoint point, Distance distance)
+        {
+            var left = y;
+            var right = y;
+            foreach (var x in xs)
+            {
+                while (indexes.GetGeoPoint(new GeoIndex(x, left - 1)).GetDistance(point) <= distance)
+                {
+                    left--;
+                }
+                while (indexes.GetGeoPoint(new GeoIndex(x, right + 1)).GetDistance(point) <= distance)
+                {
+                    right++;
+                }
+                for (var i = left; i <= right; i++)
+                    yield return new GeoIndex(x, i);
             }
         }
         

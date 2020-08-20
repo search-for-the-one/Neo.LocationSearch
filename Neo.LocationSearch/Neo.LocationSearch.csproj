@@ -4,9 +4,9 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <PackageId>Neo2.LocationSearch</PackageId>
         <PackageProjectUrl>https://github.com/search-for-the-one/Neo.LocationSearch</PackageProjectUrl>
-        <AssemblyVersion>1.3.0</AssemblyVersion>
-        <FileVersion>1.3.0</FileVersion>
-        <Version>1.3.0</Version>
+        <AssemblyVersion>1.4.0</AssemblyVersion>
+        <FileVersion>1.4.0</FileVersion>
+        <Version>1.4.0</Version>
         <Title>Neo.LocationSearch</Title>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Description>Neo location search allows users to search nearby suburbs by geo location and distance.</Description>
