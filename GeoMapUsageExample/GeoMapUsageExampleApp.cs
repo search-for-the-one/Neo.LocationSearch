@@ -20,8 +20,20 @@ namespace GeoMapUsageExample
         public Task<int> Run()
         {
             var map = CreateFromDataFile();
+            var repeat = true;
 
-            NearBySuburbs(map);
+            while (repeat)
+            {
+                try
+                {
+                    NearBySuburbs(map);
+                    repeat = false;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
 
             return Task.FromResult(0);
         }
