@@ -145,24 +145,28 @@ namespace Neo.LocationSearch
                 i = j;
             }
         }
-        
-        private IEnumerable<GeoIndex> NearbyIndexes(GeoPoint point, Distance distance)
+
+        protected IEnumerable<GeoIndex> NearbyIndexes(GeoPoint point, Distance distance)
         {
             var center = indexes.GetIndex(point);
-            var length = (int) Math.Floor(distance / resolution);
+            var length = (int) Math.Floor(distance / resolution) - 1;
             var upper = center.X + length;
             while (indexes.GetGeoPoint(new GeoIndex(upper + 1, center.Y)).GetDistance(point) <= distance)
             {
                 upper++;
             }
+
             var lower = center.X - length;
             while (indexes.GetGeoPoint(new GeoIndex(lower - 1, center.Y)).GetDistance(point) <= distance)
             {
                 lower--;
             }
+
             return NearbyIndexes(Enumerable.Range(center.X, upper - center.X + 1).Reverse(), center.Y, point, distance)
-                .Concat(NearbyIndexes(Enumerable.Range(lower, center.X - lower), center.Y, point, distance));
+                .Concat(NearbyIndexes(Enumerable.Range(lower, center.X - lower), center.Y, point, distance))
+                .Where(indexes.IsIndexValid);
         }
+
         private IEnumerable<GeoIndex> NearbyIndexes(IEnumerable<int> xs, int y, GeoPoint point, Distance distance)
         {
             var left = y;
@@ -173,15 +177,17 @@ namespace Neo.LocationSearch
                 {
                     left--;
                 }
+
                 while (indexes.GetGeoPoint(new GeoIndex(x, right + 1)).GetDistance(point) <= distance)
                 {
                     right++;
                 }
+
                 for (var i = left; i <= right; i++)
                     yield return new GeoIndex(x, i);
             }
         }
-        
+
         private void PopulateSuburbs(GeoMapData data)
         {
             foreach (var suburbGeoIndexes in data.Suburbs)
