@@ -17,7 +17,7 @@ namespace Neo.LocationSearch.Tests.Indexes
             var point = new GeoPoint(-37.828280, 144.988010);
             map[point] = new List<Suburb>(new[] {suburb});
 
-            Assert.AreEqual(suburb, map.NearbySuburbs(point, Distance.FromKilometres(1)).Single());
+            Assert.AreEqual(suburb, map.GetNearestSuburbs(point, Distance.FromKilometres(1)).Single());
         }
     }
 }

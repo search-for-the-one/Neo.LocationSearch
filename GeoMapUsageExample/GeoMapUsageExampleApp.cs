@@ -26,7 +26,7 @@ namespace GeoMapUsageExample
             {
                 try
                 {
-                    NearBySuburbs(map);
+                    NearestSuburbs(map);
                     repeat = false;
                 }
                 catch (Exception ex)
@@ -38,7 +38,7 @@ namespace GeoMapUsageExample
             return Task.FromResult(0);
         }
 
-        private static void NearBySuburbs(IGeoMap map)
+        private static void NearestSuburbs(IGeoMap map)
         {
             while (true)
             {
@@ -53,14 +53,14 @@ namespace GeoMapUsageExample
                 var km = double.Parse(arr[2]);
 
                 var sw = Stopwatch.StartNew();
-                var suburbs = map.NearbySuburbs(new GeoPoint(latitude, longitude), Distance.FromKilometres(km)).ToList();
+                var suburbs = map.GetNearestSuburbs(new GeoPoint(latitude, longitude), Distance.FromKilometres(km)).ToList();
                 sw.Stop();
                 
                 foreach (var suburb in suburbs.OrderBy(x => x.Name))
                 {
                     Console.WriteLine(suburb);
                 }
-                Console.WriteLine($"Time taken: {sw.ElapsedMilliseconds}ms");
+                Console.WriteLine($"Time taken: {sw.Elapsed.TotalMilliseconds:F3}ms");
                 PrintMemoryUsage();
             }
         }
@@ -77,7 +77,7 @@ namespace GeoMapUsageExample
             var sw = Stopwatch.StartNew();
             var result = option == "1" ? geoMapConstructor.FromJsonFile(file) : geoMapConstructor.FromBinaryFile(file);
             sw.Stop();
-            Console.WriteLine($"Loaded geo-map data in {sw.ElapsedMilliseconds}ms");
+            Console.WriteLine($"Loaded geo-map data in {sw.Elapsed.TotalMilliseconds:F3}ms");
             
             ForceGc();
             PrintMemoryUsage();

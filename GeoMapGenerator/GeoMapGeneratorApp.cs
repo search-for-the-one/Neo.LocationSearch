@@ -29,12 +29,12 @@ namespace GeoMapGenerator
             var map = await geoMapBuilder.Build();
             dataDumpHandler.DumpToFile(map);
 
-            NearBySuburbs(map);
+            NearestSuburbs(map);
 
             return 0;
         }
 
-        private static void NearBySuburbs(IGeoMap map)
+        private static void NearestSuburbs(IGeoMap map)
         {
             Console.WriteLine("Input latitude, longitude and distance in kilometers:");
             while (true)
@@ -48,7 +48,7 @@ namespace GeoMapGenerator
                 var longitude = double.Parse(arr[1]);
                 var km = double.Parse(arr[2]);
 
-                var suburbs = map.NearbySuburbs(new GeoPoint(latitude, longitude), Distance.FromKilometres(km)).OrderBy(x => x.Name);
+                var suburbs = map.GetNearestSuburbs(new GeoPoint(latitude, longitude), Distance.FromKilometres(km)).OrderBy(x => x.Name);
                 foreach (var suburb in suburbs)
                 {
                     Console.WriteLine(suburb);

@@ -31,7 +31,7 @@ namespace Neo.LocationSearch.Models
 
         public override string ToString()
         {
-            return $"{Latitude}\t{Longitude}";
+            return $"{Latitude}, {Longitude}";
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

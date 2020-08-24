@@ -6,6 +6,6 @@ namespace Neo.LocationSearch
     public interface IGeoMap
     {
         List<Suburb> this[GeoPoint point] { get; set; }
-        IEnumerable<Suburb> NearbySuburbs(GeoPoint point, Distance distance);
+        IEnumerable<Suburb> GetNearestSuburbs(GeoPoint point, Distance distance);
     }
 }
