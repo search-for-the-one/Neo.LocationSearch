@@ -2,7 +2,7 @@
 
 namespace Neo.LocationSearch.Models
 {
-    internal class GeoIndexes
+    public class GeoIndexes
     {
         private readonly double latitudeInterval;
         private readonly double longitudeInterval;
@@ -50,7 +50,30 @@ namespace Neo.LocationSearch.Models
 
         public bool IsIndexValid(GeoIndex geoIndex)
         {
-            return geoIndex.X >= 0 && geoIndex.X < LatitudeIntervalCount && geoIndex.Y >= 0 && geoIndex.Y < LongitudeIntervalCount;
+            return geoIndex.X >= 0 && geoIndex.X < LatitudeIntervalCount && 
+                   geoIndex.Y >= 0 && geoIndex.Y < LongitudeIntervalCount;
+        }
+
+        public int ClampX(int geoIndexX)
+        {
+            if (geoIndexX < 0)
+                return 0;
+
+            if (geoIndexX >= LatitudeIntervalCount)
+                return LatitudeIntervalCount - 1;
+
+            return geoIndexX;
+        }
+
+        public int ClampY(int geoIndexY)
+        {
+            if (geoIndexY < 0)
+                return 0;
+
+            if (geoIndexY >= LongitudeIntervalCount)
+                return LongitudeIntervalCount - 1;
+
+            return geoIndexY;
         }
 
         public GeoIndexesData Dump()
